@@ -18,20 +18,11 @@ pluginManagement {
     }
 }
 
-fun includeModule(moduleDir: File, moduleName: String = moduleDir.name) {
-  fileTree(moduleDir)
-    .filter { it.name.matches("^build.gradle([.]kts?)".toRegex()) }
-    .map { it.parentFile }
-    .forEach { file ->
-      include(":$moduleName:${file.name}")
-      project(":$moduleName:${file.name}").apply {
-        projectDir = file
-      }
-    }
-}
-
-file("modules")
+file("services")
   .listFiles()
   ?.forEach { file ->
-    includeModule(file)
+    include(":${file.name}")
+    project(":${file.name}").apply {
+      projectDir = file
+    }
   }

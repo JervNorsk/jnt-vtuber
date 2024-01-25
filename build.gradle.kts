@@ -4,10 +4,22 @@ plugins {
   // IDE
   // ------------------------------------------------------------------------
   id("idea")
+
+  // Kotlin
+  // ------------------------------------------------------------------------
+  kotlin("multiplatform") apply false
+//    kotlin("kapt")
 }
 
 idea {
   project {
-    languageLevel = IdeaLanguageLevel("17")
+    languageLevel = IdeaLanguageLevel(JavaVersion.VERSION_21)
   }
+}
+
+group = "io.github.jervnorsk.tools.vtuber";
+version = "0.1.0"
+
+subprojects {
+//  group = "$group.${path.replace(":", ".")}"
 }
