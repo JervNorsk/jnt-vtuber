@@ -20,10 +20,10 @@
           "options": {
             "outputPath": "dist/app",
             "index": {
-              "input": "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/jnt-vtuber-app.index.html",
+              "input": "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/app/jnt-vtuber-app.index.html",
               "output": "index.html"
             },
-            "main": "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/jnt-vtuber-app.main.ts",
+            "main": "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/app/jnt-vtuber-app.main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -32,12 +32,12 @@
             "assets": [
               {
                 "glob": "**/assets/**/*",
-                "input": "src/jsMain/resources/io/github/jervnorsk/tools/vtuber/",
+                "input": "src/jsMain/resources/io/github/jervnorsk/tools/vtuber/app",
                 "output": "/"
               }
             ],
             "styles": [
-              "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/jnt-vtuber-app.main.sass"
+              "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/app/jnt-vtuber-app.main.sass"
             ],
             "scripts": []
           },

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="website-js">
+    <output-path>$PROJECT_DIR$/services/website/build/libs</output-path>
+    <root id="archive" name="website-js.jar">
+      <element id="module-output" name="vtuber.website.jsMain" />
+    </root>
+  </artifact>
+</component>
