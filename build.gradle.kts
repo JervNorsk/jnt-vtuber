@@ -17,9 +17,11 @@ idea {
   }
 }
 
-group = "io.github.jervnorsk.tools.vtuber";
-version = "0.1.0"
+allprojects {
+  group = "io.github.jervnorsk.tools.vtuber";
+  version = "0.1.0"
+}
 
 subprojects {
-//  group = "$group.${path.replace(":", ".")}"
+  group = "$group.${path.replace(":", ".").substring(1)}"
 }
