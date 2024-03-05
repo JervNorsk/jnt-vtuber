@@ -17,13 +17,26 @@ kotlin {
   }
   sourceSets {
     val jsMain by getting {
-      kotlin {
-        srcDir("src/jsMain/typescript")
-      }
+      resources.srcDirs(
+        "src/jsMain/typescript",
+        rootProject.layout.buildDirectory
+          .get()
+          .dir("js/packages/${rootProject.name}-${project.name}/node_modules")
+          .asFile
+          .path
+      )
       dependencies {
         implementation(devNpm("@angular/cli", "^16.1.0"))
+        implementation(devNpm("@angular-devkit/build-angular", "^16.1.0"))
+        implementation(devNpm("@angular/compiler-cli", "^16.1.0"))
+        implementation(devNpm("typescript", "5.1.3"))
 
         implementation(npm("@angular/core", "^16.1.0"))
+        implementation(npm("@angular/common", "^16.1.0"))
+        implementation(npm("@angular/compiler", "^16.1.0"))
+        implementation(npm("@angular/platform-browser", "^16.1.0"))
+        implementation(npm("@angular/platform-browser-dynamic", "^16.1.0"))
+        implementation(npm("@angular/router", "^16.1.0"))
         implementation(npm("rxjs", "^6.5.3"))
         implementation(npm("zone.js", "~0.13.0"))
 
@@ -39,9 +52,52 @@ kotlin {
     }
   }
   tasks {
-    create("ngServe", Exec::class) {
+    // TODO: set generated source directory to node_modules in build folder
+    create("ngCopyConfiguration", Copy::class) {
       dependsOn("build")
-      // TODO: copy typescript source files to build dir
+      from(projectDir)
+      into(
+        rootProject.layout.buildDirectory
+          .get()
+          .dir("js/packages/${rootProject.name}-${project.name}")
+          .asFile
+      )
+      include(
+        "angular.json",
+        "tsconfig*.json"
+      )
+    }
+    create("ngCopyResources", Copy::class) {
+      dependsOn("build")
+      from(projectDir)
+      into(
+        rootProject.layout.buildDirectory
+          .get()
+          .dir("js/packages/${rootProject.name}-${project.name}")
+          .asFile
+      )
+      include("src/*/resources/**/*.*")
+    }
+    create("ngCopySources", Copy::class) {
+      dependsOn("build")
+      from(projectDir)
+      into(
+        rootProject.layout.buildDirectory
+          .get()
+          .dir("js/packages/${rootProject.name}-${project.name}")
+          .asFile
+      )
+      include("src/*/typescript/**/*.*")
+    }
+    create("ngUpdateResources") {
+      dependsOn(
+        "ngCopyConfiguration",
+        "ngCopyResources",
+        "ngCopySources"
+      )
+    }
+    create("ngBuild", Exec::class) {
+      dependsOn("ngUpdateResources")
       mutableListOf<String>(
         "npx"
       ).also {
@@ -51,17 +107,38 @@ kotlin {
         }
       }.also {
         it += "-w"
-        it += "${rootProject.name}-${project.name}"
-//        it +=
+        it += "packages\\${rootProject.name}-${project.name}"
         workingDir =
           rootProject.layout.buildDirectory
-          .dir("js")
-//          .dir("js/packages/${rootProject.name}-${project.name}")
-          .get()
-          .asFile
-//          .path
+            .get()
+            .dir("js")
+            .asFile
       }.also {
-        it += "run"
+        it += "ng"
+        it += "build"
+      }.also {
+        println(it)
+        commandLine(it)
+      }
+    }
+    create("ngServe", Exec::class) {
+      dependsOn("ngUpdateResources")
+      mutableListOf<String>(
+        "npx"
+      ).also {
+        if (isWindows) {
+          it.add(0, "cmd")
+          it.add(1, "/c")
+        }
+      }.also {
+        it += "-w"
+        it += "packages\\${rootProject.name}-${project.name}"
+        workingDir =
+          rootProject.layout.buildDirectory
+            .get()
+            .dir("js")
+            .asFile
+      }.also {
         it += "ng"
         it += "serve"
       }.also {

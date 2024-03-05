@@ -6,7 +6,7 @@
     "types": []
   },
   "files": [
-    "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/jnt-vtuber-app.main.ts"
+    "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/app/jnt-vtuber-app.main.ts"
   ],
   "include": [
     "src/jsMain/typescript/**/*.d.ts"

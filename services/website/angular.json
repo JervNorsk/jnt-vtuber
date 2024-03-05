@@ -1,0 +1,87 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "projects": {
+    "app": {
+      "projectType": "application",
+      "root": "",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styles": [
+            "sass"
+          ]
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "tsConfig": "tsconfig.json",
+            "main": "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/website/jnt-vtuber-website.main.ts",
+            "styles": [
+              "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/website/jnt-vtuber-website.main.sass"
+            ],
+            "inlineStyleLanguage": "sass",
+            "outputPath": "dist/app",
+            "index": {
+              "input": "src/jsMain/typescript/io/github/jervnorsk/tools/vtuber/website/jnt-vtuber-website.index.html",
+              "output": "index.html"
+            },
+            "assets": [
+              {
+                "glob": "**/assets/**/*",
+                "input": "src/jsMain/resources/io/github/jervnorsk/tools/vtuber/website",
+                "output": "/"
+              }
+            ],
+            "polyfills": [
+              "zone.js"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "namedChunks": true,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "app:build:production"
+            },
+            "development": {
+              "browserTarget": "app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "45035b7b-97b2-4f08-8f7c-80446408c5aa"
+  }
+}

@@ -1,1 +1,14 @@
 <router-outlet/>
+<div class="canvas">
+  <img #result />
+<!--  <img #openImage (click)="doOpenImage()"/>-->
+<!--  <span #openImage>-->
+<!--    <input type="file" id="fileInput" accept="image/*" (change)="doOpenImage($event)">-->
+<!--  </span>-->
+  <div class="form-group">
+    <label class="label">
+      <i class="material-icons">attach_file</i>
+      <span class="title">Add File</span>
+      <input type="file" (change)="doOpenImage($event)"/>
+    </label>
+</div>
